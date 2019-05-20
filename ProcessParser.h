@@ -74,10 +74,10 @@ string ProcessParser::get_cpu_percent(string pid) {
     vector<string> values(beg, end);
     float utime = stof(ProcessParser::get_proc_up_time(pid));
 
-    float stime = stof(pars[14]);
-    float cutime = stof(pars[15]);
-    float cstime = stof(pars[16]);
-    float startTime = stof(pars[21]);
+    float stime = stof(values[14]);
+    float cutime = stof(values[15]);
+    float cstime = stof(values[16]);
+    float startTime = stof(values[21]);
 
     float uptime = ProcessParser::get_sys_up_time();
 
@@ -89,4 +89,30 @@ string ProcessParser::get_cpu_percent(string pid) {
     result = 100.0*((total_time/freq)/seconds);
 
     return to_string(result);
+}
+
+string ProcessParser::get_proc_up_time(string pid) {
+    string line;
+    string value;
+    float result;
+    ifstream stream = Util::getStream((Path::basePath() + pid + "/" + Path::statPath()));
+    getline(stream, line);
+    string str = line;
+    istringstream buf(str);
+    istream_iterator<string> beg(buf), end;
+    vector<string> values(beg, end);
+    return to_string(float(stof(values[13])/sysconf(_SC_CLK_TCK)));
+}
+
+long int ProcessParser::get_sys_up_time() {
+    string line;
+    string value;
+    float result;
+    ifstream stream = Util::getStream((Path::basePath() + Path::upTimePath()));
+    getline(stream, line);
+    string str = line;
+    istringstream buf(str);
+    istream_iterator<string> beg(buf), end;
+    vector<string> values(beg, end);
+    return stoi(values[0]);
 }
