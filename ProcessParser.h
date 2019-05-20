@@ -64,38 +64,29 @@ string ProcessParser::get_vm_size(string pid) {
 string ProcessParser::get_cpu_percent(string pid) {
 
     string line;
-    ifstream stream = Util::getStream((Path::basePath() + pid + Path::statPath()));
-
-    vector<string> pars = {};
-    while (std::getline(stream, line, ' '))
-    {
-        pars.push_back(line);
-    }
-    
-    float utime = 0.0;//stof(ProcessParser::get_proc_up_time(pid));
+    string value;
+    float result;
+    ifstream stream = Util::getStream((Path::basePath() + pid + "/" + Path::statPath()));
+    getline(stream, line);
+    string str = line;
+    istringstream buf(str);
+    istream_iterator<string> beg(buf), end;
+    vector<string> values(beg, end);
+    float utime = stof(ProcessParser::get_proc_up_time(pid));
 
     float stime = stof(pars[14]);
     float cutime = stof(pars[15]);
     float cstime = stof(pars[16]);
     float startTime = stof(pars[21]);
 
-    cout << "stime = " << stime << endl;
-    cout << "cutime = " << cutime << endl;
-    cout << "cstime = " << cstime << endl;
-    cout << "startaTime = " << startTime << endl;
-
-    float uptime = 0.0;//ProcessParser::get_sys_up_time();
+    float uptime = ProcessParser::get_sys_up_time();
 
     float freq = sysconf(_SC_CLK_TCK);
 
-    cout << "freq = " << freq << endl;
-
     float total_time = utime + stime + cutime + cstime;
 
-    cout << "total_time = " << total_time << endl;
-
     float seconds = uptime - (startTime/freq);
-    float result = 100.0*((total_time/freq)/seconds);
+    result = 100.0*((total_time/freq)/seconds);
 
     return to_string(result);
 }
