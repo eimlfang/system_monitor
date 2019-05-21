@@ -156,9 +156,7 @@ vector<string> ProcessParser::get_pid_list()
     while (dirent* dirp = readdir(dir)) {
         if(dirp->d_type != DT_DIR)
             continue;
-        if (all_of(dirp->d_name, 
-        dirp->d_name + std::strlen(dirp->d_name), 
-        [](char c){ return std::isdigit(c); })) {
+        if (all_of(dirp->d_name, dirp->d_name + std::strlen(dirp->d_name), [](char c){ return std::isdigit(c); })) {
             container.push_back(dirp->d_name);
         }
     }
