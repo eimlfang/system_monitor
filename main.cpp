@@ -5,7 +5,11 @@
 int main() {
     std::cout << "memory monitor" << std::endl;
     ProcessParser p;
-    string ss = ProcessParser::get_proc_user("2090");
-    cout << ss << endl;
+    vector<string> ss = ProcessParser::get_pid_list();
+    for (string a : ss)
+    {
+        cout << a << endl;
+    }
+    
     return 0;
 }
