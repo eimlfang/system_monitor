@@ -151,7 +151,7 @@ vector<string> SysInfo::get_cores_stats() const
         {
             return vector<string>();
         }
-        temp += Util::getProgressBar(this->cores_stats[i]);
+        temp += Util::get_progress_bar(this->cores_stats[i]);
         result.push_back(temp);
     }
     return result;

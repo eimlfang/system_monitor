@@ -12,13 +12,13 @@ class Util {
 
 public:
 
-    static std::string convertToTime ( long int input_seconds );
-    static std::string getProgressBar(std::string percent);
-    // static void getStream(std::string path, std::ifstream& stream);
-    static std::ifstream getStream(std::string path);
+    static std::string convert_to_time ( long int input_seconds );
+    static std::string get_progress_bar(std::string percent);
+    // static void get_stream(std::string path, std::ifstream& stream);
+    static std::ifstream get_stream(std::string path);
 };
 
-std::string Util::convertToTime (long int input_seconds){
+std::string Util::convert_to_time (long int input_seconds){
     long minutes = input_seconds / 60;
     long hours = minutes / 60;
     long seconds = int(input_seconds%60);
@@ -29,7 +29,7 @@ std::string Util::convertToTime (long int input_seconds){
 // constructing string for given percentage
 // 50 bars is uniformly streched 0 - 100 %
 // meaning: every 2% is one bar(|)
-std::string Util::getProgressBar(std::string percent){
+std::string Util::get_progress_bar(std::string percent){
 
     std::string result = "0%% ";
     int _size= 50;
@@ -55,7 +55,7 @@ std::string Util::getProgressBar(std::string percent){
 
 // wrapper for creating streams
 
-std::ifstream Util::getStream(std::string path) {
+std::ifstream Util::get_stream(std::string path) {
     std::ifstream stream(path);
     if (!stream) {
         throw std::runtime_error("Non - existing PID");
@@ -63,7 +63,7 @@ std::ifstream Util::getStream(std::string path) {
     return stream;
 }
 
-// void Util::getStream(std::string path, std::ifstream& stream){
+// void Util::get_stream(std::string path, std::ifstream& stream){
 //     stream.open (path, std::ifstream::in);
 //     if (!stream && !stream.is_open()){
 //         stream.close();
