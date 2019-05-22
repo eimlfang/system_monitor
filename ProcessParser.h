@@ -1,3 +1,5 @@
+#pragma once
+
 #include <algorithm>
 #include <iostream>
 #include <math.h>
@@ -51,7 +53,6 @@ string ProcessParser::get_vm_size(string pid)
   ifstream stream = Util::getStream((Path::basePath() + pid + Path::statusPath()));
   while (std::getline(stream, line))
   {
-    cout << "scan: " << line << "\n";
     if (line.compare(0, name.size(), name) == 0)
     {
 
@@ -374,4 +375,20 @@ int ProcessParser::get_number_of_running_processes()
         }
     }
     return result;
+}
+
+string ProcessParser::get_sys_kernel_version()
+{
+    string line;
+    string name = "Linux version ";
+    ifstream stream = Util::getStream((Path::basePath() + Path::versionPath()));
+    while (std::getline(stream, line)) {
+        if (line.compare(0, name.size(),name) == 0) {
+            istringstream buf(line);
+            istream_iterator<string> beg(buf), end;
+            vector<string> values(beg, end);
+            return values[2];
+        }
+    }
+    return "";
 }
